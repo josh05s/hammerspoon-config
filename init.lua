@@ -5,11 +5,21 @@ local function restartNanoleaf()
     end)
 end
 
--- Catches lid open/close and system sleep/wake
 hs.caffeinate.watcher.new(function(event)
     if event == hs.caffeinate.watcher.systemDidWake or
        event == hs.caffeinate.watcher.screensDidWake or
        event == hs.caffeinate.watcher.sessionDidBecomeActive then
         hs.timer.doAfter(3, restartNanoleaf)
+    end
+end):start()
+
+hs.application.watcher.new(function(name, event, app)
+    if name == "Nanoleaf Desktop" then
+        hs.timer.doAfter(0.2, function()
+            local a = hs.application.find("Nanoleaf Desktop")
+            if a then
+                a:hide()
+            end
+        end)
     end
 end):start()
