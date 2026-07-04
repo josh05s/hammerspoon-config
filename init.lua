@@ -1,3 +1,6 @@
+-- Keepalive timer to prevent Hammerspoon going idle
+hs.timer.doEvery(60, function() end)
+
 local function restartNanoleaf()
     os.execute("pkill -x 'Nanoleaf Desktop'")
     hs.timer.doAfter(1, function()
